@@ -9,13 +9,17 @@ public class House : MonoBehaviour
     public Renderer mainRend;
     private GameObject gridVisual;
     public ParticleSystem explosion;
+    private AudioSource aus;
+    public AudioClip death;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
         gridVisual = GameObject.Find("Grid");
-       
+        aus = GetComponent<AudioSource>();
+
     }
 
     // Update is called once per frame
@@ -30,7 +34,7 @@ public class House : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             explosion.Play();
-           
+            aus.PlayOneShot(death);
             Destroy(gameObject,0.3f);
             gridVisual.SetActive(false);
 
