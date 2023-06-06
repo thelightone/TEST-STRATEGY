@@ -216,6 +216,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: FX_Explosion_Smoke 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4316348705126373176, guid: 867c713a3b7121f4ca7aad2854d6b72a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7045614276921651581, guid: 867c713a3b7121f4ca7aad2854d6b72a, type: 3}
       propertyPath: playOnAwake
       value: 0

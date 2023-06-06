@@ -15,7 +15,7 @@ public class House : MonoBehaviour
     void Start()
     {
         gridVisual = GameObject.Find("Grid");
-       // explosion = GetComponent<ParticleSystem>();
+       
     }
 
     // Update is called once per frame
@@ -30,7 +30,7 @@ public class House : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             explosion.Play();
-            Debug.Log("boom");
+           
             Destroy(gameObject,0.3f);
             gridVisual.SetActive(false);
 
@@ -38,12 +38,12 @@ public class House : MonoBehaviour
     }
     public void ChangeColor(Color color)
     {
-       // Debug.Log(color);
+       
         mainRend.material.color = color;
     }
     public void Destroy()
     { 
-        Debug.Log("Destroy");
+       
        Destroy(gameObject);
 }
 }

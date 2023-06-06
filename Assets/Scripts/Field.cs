@@ -47,7 +47,7 @@ public class Field : MonoBehaviour
                 int y = Mathf.RoundToInt(precisePos.z);
 
                 bool freeSpace = true;
-              //  blueprint.mainRend.material.color = Color.green;
+              
               blueprint.ChangeColor(Color.green);
               blueprint.transform.position = new Vector3(x, 0, y);
               curMosPos = blueprint.transform.position;
@@ -57,7 +57,7 @@ public class Field : MonoBehaviour
                     || BusySpace(x, y))
                  
                 {
-                    // blueprint.mainRend.material.color = Color.red;
+                  
                     blueprint.ChangeColor(Color.red);
                     freeSpace = false;
                 }
@@ -79,9 +79,7 @@ public class Field : MonoBehaviour
                         }
                     }
                      blueprint = null;
-                    //Destroy(blueprint);
-                    // Instantiate(blueprint);
-                   // StartCoroutine(Spawn());
+                    
 
                 }
 
@@ -97,11 +95,11 @@ public class Field : MonoBehaviour
         if (blueprint != null)
         {
             
-            DestroyHouse();// blueprint = null;
+            DestroyHouse();
          }
        blueprint = Instantiate(house);
        gridVisual.SetActive(true);
-       // button.onButton = false;
+       
         
     }
 
