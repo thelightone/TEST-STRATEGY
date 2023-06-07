@@ -42,52 +42,69 @@ public class Field : MonoBehaviour
 
             if (plane.Raycast(point, out float position))
             {
-                Vector3 precisePos = point.GetPoint(position);
-                int x = Mathf.RoundToInt(precisePos.x);
-                int y = Mathf.RoundToInt(precisePos.z);
+                int x, y;
+                bool freeSpace;
+                FindMousePos(point, position, out x, out y, out freeSpace);
 
-                bool freeSpace = true;
-              
-              blueprint.ChangeColor(Color.green);
-              blueprint.transform.position = new Vector3(x, 0, y);
-              curMosPos = blueprint.transform.position;
+                freeSpace = CheckFree(x, y, freeSpace);
 
-                if (x < 0 || x > fieldSize.x - blueprint.size.x 
-                    || y < 0 || y > fieldSize.y - blueprint.size.y
-                    || BusySpace(x, y))
-                 
-                {
-                  
-                    blueprint.ChangeColor(Color.red);
-                    freeSpace = false;
-                }
-
-                OnButton();
-
-                if (Input.GetMouseButtonDown(0) && freeSpace && !onButton )
-                {
-
-                    blueprint.ChangeColor(Color.clear);
-
-                    gridVisual.SetActive(false);
-
-                    for (int i = 0; i < blueprint.size.x; i++)
-                    {
-                        for (int j = 0; j < blueprint.size.y; j++)
-                        {
-                            buildings[x + i, y + j] = blueprint;
-                        }
-                    }
-                     blueprint = null;
-                    
-
-                }
+                MouseOnButton();
+                CreateBuilding(x, y, freeSpace);
 
             }
 
         }
 
     }
+
+    private void FindMousePos(Ray point, float position, out int x, out int y, out bool freeSpace)
+    {
+        Vector3 precisePos = point.GetPoint(position);
+        x = Mathf.RoundToInt(precisePos.x);
+        y = Mathf.RoundToInt(precisePos.z);
+        freeSpace = true;
+        blueprint.ChangeColor(Color.green);
+        blueprint.transform.position = new Vector3(x, 0, y);
+        curMosPos = blueprint.transform.position;
+    }
+
+    private bool CheckFree(int x, int y, bool freeSpace)
+    {
+        if (x < 0 || x > fieldSize.x - blueprint.size.x
+                            || y < 0 || y > fieldSize.y - blueprint.size.y
+                            || BusySpace(x, y))
+
+        {
+
+            blueprint.ChangeColor(Color.red);
+            freeSpace = false;
+        }
+
+        return freeSpace;
+    }
+
+    private void CreateBuilding(int x, int y, bool freeSpace)
+    {
+        if (Input.GetMouseButtonDown(0) && freeSpace && !onButton)
+        {
+
+            blueprint.ChangeColor(Color.clear);
+
+            gridVisual.SetActive(false);
+
+            for (int i = 0; i < blueprint.size.x; i++)
+            {
+                for (int j = 0; j < blueprint.size.y; j++)
+                {
+                    buildings[x + i, y + j] = blueprint;
+                }
+            }
+            blueprint = null;
+
+
+        }
+    }
+
     public void ChooseHouse(House house)
     {
         
@@ -120,7 +137,7 @@ public class Field : MonoBehaviour
 
     }
 
-    public void OnButton()
+    public void MouseOnButton()
     {
 
         if (button1.isOver || button2.isOver || button3.isOver) onButton = true;
