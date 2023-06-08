@@ -866,7 +866,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf7a125810abf2478b386a4df44ecf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOver: 0
 --- !u!1 &757204372
 GameObject:
   m_ObjectHideFlags: 0
@@ -1584,7 +1583,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf7a125810abf2478b386a4df44ecf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOver: 0
 --- !u!1 &1034490255
 GameObject:
   m_ObjectHideFlags: 0
@@ -1825,12 +1823,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf399223a9f5cab47bd677ff1a5781b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fieldSize: {x: 50, y: 50}
-  gridVisual: {fileID: 905706799}
-  blueprint: {fileID: 0}
-  button1: {fileID: 977518407}
-  button2: {fileID: 718074164}
-  button3: {fileID: 1413478657}
+  _gridVisual: {fileID: 905706799}
+  _blueprint: {fileID: 0}
 --- !u!4 &1101874146
 Transform:
   m_ObjectHideFlags: 0
@@ -2095,7 +2089,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edf7a125810abf2478b386a4df44ecf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOver: 0
 --- !u!1 &1563185060
 GameObject:
   m_ObjectHideFlags: 0

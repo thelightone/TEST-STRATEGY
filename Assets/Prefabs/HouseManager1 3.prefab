@@ -49,10 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6caabab7febf3c4468c4c049b19a5163, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mainRend: {fileID: 919372682037832083}
+  _explosion: {fileID: 5847389272030591104}
+  _death: {fileID: 8300000, guid: 21ad3a49f63fcf6498f167f9cae8bf6d, type: 3}
   size: {x: 2, y: 1}
-  mainRend: {fileID: 919372682037832083}
-  explosion: {fileID: 5847389272030591104}
-  death: {fileID: 8300000, guid: 21ad3a49f63fcf6498f167f9cae8bf6d, type: 3}
 --- !u!65 &8584778994587304199
 BoxCollider:
   m_ObjectHideFlags: 0
