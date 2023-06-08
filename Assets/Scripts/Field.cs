@@ -1,146 +1,115 @@
-using System.Collections;
-using System.Collections.Generic;
-
 using UnityEngine;
-using static UnityEngine.UIElements.UxmlAttributeDescription;
+using UnityEngine.EventSystems;
+using UnityEngine.Pool;
 
 public class Field : MonoBehaviour
 {
-    public Vector2Int fieldSize = new Vector2Int(50,50);
-    public GameObject gridVisual;
-    private House[,] buildings;
-    public House blueprint = null;
-    private Camera mainCamera;
-    private Vector3 curMosPos;
-    private bool onButton = true;
-    public Buttons button1;
-    public Buttons button2;
-    public Buttons button3;
+    private Vector2Int _fieldSize = new Vector2Int(50, 50);
+    private House[,] _buildings;
+    private Camera _mainCamera;
+    private Vector3 _mousePos;
 
+    [SerializeField]
+    private GameObject _gridVisual;
+    [SerializeField]
+    private House _blueprint;
 
-
-
-
-    // Start is called before the first frame update
     void Awake()
     {
-        buildings = new House[fieldSize.x, fieldSize.y];
-        mainCamera= Camera.main;
-      
-
+        _buildings = new House[_fieldSize.x, _fieldSize.y];
+        _mainCamera = Camera.main;
     }
 
-    // Update is called once per frame
     void Update()
     {
-       if (blueprint != null)
-       {
-           
+        if (_blueprint != null && (Input.GetMouseButtonDown(0) || _mousePos != Input.mousePosition))
+        {
             var plane = new Plane(Vector3.up, Vector3.zero);
-            var mouse = Input.mousePosition;
-            var point = mainCamera.ScreenPointToRay(mouse);
+            _mousePos = Input.mousePosition;
+            var point = _mainCamera.ScreenPointToRay(_mousePos);
 
             if (plane.Raycast(point, out float position))
             {
                 int x, y;
                 bool freeSpace;
-                FindMousePos(point, position, out x, out y, out freeSpace);
 
-                freeSpace = CheckFree(x, y, freeSpace);
-
-                MouseOnButton();
-                CreateBuilding(x, y, freeSpace);
-
+                _FindMousePos(point, position, out x, out y, out freeSpace);
+                freeSpace = _CheckFree(x, y, freeSpace);
+                _CreateBuilding(x, y, freeSpace);
             }
 
         }
 
     }
 
-    private void FindMousePos(Ray point, float position, out int x, out int y, out bool freeSpace)
+    private void _FindMousePos(Ray point, float position, out int x, out int y, out bool freeSpace)
     {
         Vector3 precisePos = point.GetPoint(position);
         x = Mathf.RoundToInt(precisePos.x);
         y = Mathf.RoundToInt(precisePos.z);
+
         freeSpace = true;
-        blueprint.ChangeColor(Color.green);
-        blueprint.transform.position = new Vector3(x, 0, y);
-        curMosPos = blueprint.transform.position;
+
+        _blueprint.ChangeColor(Color.green);
+        _blueprint.transform.position = new Vector3(x, 0, y);
     }
 
-    private bool CheckFree(int x, int y, bool freeSpace)
+    private bool _CheckFree(int x, int y, bool freeSpace)
     {
-        if (x < 0 || x > fieldSize.x - blueprint.size.x
-                            || y < 0 || y > fieldSize.y - blueprint.size.y
-                            || BusySpace(x, y))
-
+        if (
+            x < 0 || x > _fieldSize.x - _blueprint.size.x
+            || y < 0 || y > _fieldSize.y - _blueprint.size.y
+            || _BusySpace(x, y)
+            )
         {
-
-            blueprint.ChangeColor(Color.red);
+            _blueprint.ChangeColor(Color.red);
             freeSpace = false;
         }
-
         return freeSpace;
     }
 
-    private void CreateBuilding(int x, int y, bool freeSpace)
+    private void _CreateBuilding(int x, int y, bool freeSpace)
     {
-        if (Input.GetMouseButtonDown(0) && freeSpace && !onButton)
+        if (Input.GetMouseButtonDown(0) && freeSpace && !EventSystem.current.IsPointerOverGameObject())
         {
-
-            blueprint.ChangeColor(Color.clear);
-
-            gridVisual.SetActive(false);
-
-            for (int i = 0; i < blueprint.size.x; i++)
+            _blueprint.ChangeColor(Color.clear);
+            _gridVisual.SetActive(false);
+            for (int i = 0; i < _blueprint.size.x; i++)
             {
-                for (int j = 0; j < blueprint.size.y; j++)
+                for (int j = 0; j < _blueprint.size.y; j++)
                 {
-                    buildings[x + i, y + j] = blueprint;
+                    _buildings[x + i, y + j] = _blueprint;
                 }
             }
-            blueprint = null;
-
-
+            _blueprint = null;
         }
     }
 
-    public void ChooseHouse(House house)
+    private bool _BusySpace(int spaceX, int spaceY)
     {
-        
-
-        if (blueprint != null)
+        for (int i = 0; i < _blueprint.size.x; i++)
         {
-            
-            DestroyHouse();
-         }
-       blueprint = Instantiate(house);
-       gridVisual.SetActive(true);
-       
-        
-    }
-
-    private bool BusySpace(int spaceX, int spaceY)
-    {
-        for (int i = 0; i < blueprint.size.x; i++)
-        {
-            for (int j = 0; j < blueprint.size.y; j++)
+            for (int j = 0; j < _blueprint.size.y; j++)
             {
-                if (buildings[spaceX + i, spaceY + j] != null) return true;
+                if (_buildings[spaceX + i, spaceY + j] != null) return true;
             }
         }
         return false;
     }
+
+    public void ChooseHouse(House house)
+    {
+        if (_blueprint != null)
+        {
+            DestroyHouse();
+        }
+        _blueprint = Instantiate(house);
+        _gridVisual.SetActive(true);
+    }
+
     public void DestroyHouse()
     {
-        blueprint.Destroy();
-
+        _blueprint.Destroy();
     }
 
-    public void MouseOnButton()
-    {
-
-        if (button1.isOver || button2.isOver || button3.isOver) onButton = true;
-        else onButton = false;
-    }
 }

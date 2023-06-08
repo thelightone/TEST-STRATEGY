@@ -5,51 +5,44 @@ using UnityEngine;
 
 public class House : MonoBehaviour
 {
+    private GameObject _gridVisual;
+    private AudioSource _source;
+
+    [SerializeField]
+    private Renderer _mainRend;
+    [SerializeField]
+    private ParticleSystem _explosion;
+    [SerializeField]
+    private AudioClip _death;
+
     public Vector2Int size = Vector2Int.one;
-    public Renderer mainRend;
-    private GameObject gridVisual;
-    public ParticleSystem explosion;
-    private AudioSource aus;
-    public AudioClip death;
 
-
-
-    // Start is called before the first frame update
     void Start()
     {
-        gridVisual = GameObject.Find("Grid");
-        aus = GetComponent<AudioSource>();
-
+        _gridVisual = GameObject.Find("Grid");
+        _source = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-
-
-    }
-    public void OnMouseOver()
+    private void OnMouseOver()
     {
         if (Input.GetMouseButtonDown(1))
         {
-            explosion.Play();
-            aus.PlayOneShot(death);
-            Destroy(gameObject,0.3f);
-            gridVisual.SetActive(false);
-
+            _explosion.Play();
+            _source.PlayOneShot(_death);
+            Destroy(gameObject, 0.3f);
+            _gridVisual.SetActive(false);
         }
     }
+
     public void ChangeColor(Color color)
     {
-       
-        mainRend.material.color = color;
+        _mainRend.material.color = color;
     }
+
     public void Destroy()
-    { 
-       
-       Destroy(gameObject);
-}
+    {
+        Destroy(gameObject);
+    }
 }
 
 
